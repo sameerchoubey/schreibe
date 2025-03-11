@@ -2,6 +2,9 @@ import React from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { Button } from "@/components/ui/button"
+import { PenBox, FolderOpen } from 'lucide-react';
+import UserMenu from '@/components/user-menu';
 
 const Header = () => {
 	return <header className="container mx-auto ">
@@ -17,12 +20,32 @@ const Header = () => {
 			</Link>
 
 			<div className="flex items-center gap-4">
-				<SignedOut>
-					<SignInButton />
-					<SignUpButton />
-				</SignedOut>
 				<SignedIn>
-					<UserButton />
+					<Link href={"/dashboard#collections"}>
+						<Button variant={'outline'} className="flex items-center gap-2">
+							<FolderOpen size={18}/>
+							<span className="hidden md:inline">Collections</span>
+						</Button>
+					</Link>
+				</SignedIn>
+
+				{/* Write New Custom Button */}
+				<Link href={"/journal/write"}>
+					<Button variant={'journal'} className="flex items-center gap-2">
+						<PenBox size={18}/>
+						<span className="hidden md:inline">Write New</span>
+					</Button>
+				</Link>
+
+				<SignedOut>
+					<SignInButton forceRedirectUrl='/dashboard'>
+						<Button variant={'outline'}>Login</Button>
+					</SignInButton>
+					{/* <SignUpButton /> */}
+				</SignedOut>
+
+				<SignedIn>
+					<UserMenu />
 				</SignedIn>
 			</div>
 		</nav>
