@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 const Header = () => {
 	return <header className="container mx-auto ">
@@ -16,7 +17,13 @@ const Header = () => {
 			</Link>
 
 			<div className="flex items-center gap-4">
-
+				<SignedOut>
+					<SignInButton />
+					<SignUpButton />
+				</SignedOut>
+				<SignedIn>
+					<UserButton />
+				</SignedIn>
 			</div>
 		</nav>
 	</header>
