@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import TestimonialCarousel from "@/components/testimonial-carousel";
 import faqs from "@/data/faqs";
+import { getDailyPrompt } from "@/actions/public";
 
 const features = [
 	{
@@ -28,7 +29,9 @@ const features = [
 	},
 ];
 
-export default function Home() {
+export default async function Home() {
+	const advice = await getDailyPrompt();
+
 	return (
 		<div className="relative container mx-auto px-4 py-16">
 			<div className="max-w-5xl mx-auto text-center space-y-8">
@@ -59,7 +62,9 @@ export default function Home() {
 						</div>
 
 						<div className="space-y-4 p-4">
-							<h3 className="text-xl font-semibold text-orange-900">daily prompts</h3>
+							<h3 className="text-xl font-semibold text-orange-900">
+								{advice ? advice : "My Thoughts Today"}
+							</h3>
 
 							<Skeleton className="h-4 bg-orange-100 rounded w-3/4" />
 							<Skeleton className="h-4 bg-orange-100 rounded w-full" />
