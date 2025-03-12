@@ -5,8 +5,11 @@ import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@cl
 import { Button } from "@/components/ui/button"
 import { PenBox, FolderOpen } from 'lucide-react';
 import UserMenu from '@/components/user-menu';
+import { checkUser } from '@/lib/checkUser';
 
-const Header = () => {
+const Header = async () => {
+	await checkUser();
+
 	return <header className="container mx-auto ">
 		<nav className="py-6 px-4 flex justify-between items-center">
 			<Link href={"/"}>
