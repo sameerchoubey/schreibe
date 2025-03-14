@@ -16,17 +16,31 @@ import useFetch from "@/hooks/use-fetch";
 import { createJournalEntry } from "@/actions/journal";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { createCollection, getCollections } from "@/actions/collection";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false});
 
 const JournalEntryPage = () => {
-    
+    const [isCollectionDialogOpen, setIsCollectionDialogOpen] = useState(false);
+
     const {
         loading: actionLoading,
         fn: actionFn,
         data: actionResult,
     } = useFetch(createJournalEntry);
 
+    const {
+        loading: collectionsLoading,
+        data: collections,
+        fn: fetchCollections,
+    } = useFetch(getCollections);
+
+    const {
+        loading: createCollectionLoading,
+        fn: createCollectionFn,
+        data: createdCollection,
+    } = useFetch(createCollection);
+    
     const router = useRouter();
 
     const { register, handleSubmit, control, getValues, formState:{errors} } = useForm({
@@ -38,6 +52,10 @@ const JournalEntryPage = () => {
             collectionId: ""
         }
     })
+
+    useEffect(() => {
+        fetchCollections();
+    }, []);
 
     const isLoading = actionLoading;
 
@@ -169,11 +187,12 @@ const JournalEntryPage = () => {
                                     <SelectValue placeholder="Choose a collection..." />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {/* {collections?.map((collection) => (
+                                    {collections?.map((collection) => (
                                         <SelectItem key={collection.id} value={collection.id}>
-                                        {collection.name}
+                                            {collection.name}
                                         </SelectItem>
-                                    ))} */}
+                                    ))}
+
                                     <SelectItem value="new">
                                         <span className="text-orange-600">
                                             + Create New Collection
