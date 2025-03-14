@@ -3,6 +3,8 @@
 import { MOODS } from "@/app/lib/moods";
 import { auth } from "@clerk/nextjs/server";
 import { getPixabayImage } from "./public";
+import { db } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function createJournalEntry(data) {
     try {
@@ -11,7 +13,7 @@ export async function createJournalEntry(data) {
 
         //ArcJet Rate Limiting
 
-        const user = await db.user.findUnqiue({
+        const user = await db.user.findUnique({
             where: {clerkUserId: userId}
         });
 
