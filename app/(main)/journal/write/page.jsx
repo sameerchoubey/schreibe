@@ -17,6 +17,7 @@ import { createJournalEntry } from "@/actions/journal";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createCollection, getCollections } from "@/actions/collection";
+import CollectionForm from "@/components/collection-form";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false});
 
@@ -43,7 +44,7 @@ const JournalEntryPage = () => {
     
     const router = useRouter();
 
-    const { register, handleSubmit, control, getValues, formState:{errors} } = useForm({
+    const { register, handleSubmit, control, setValue, getValues, formState:{errors} } = useForm({
         resolver: zodResolver(journalSchema),
         defaultValues: {
             title: "",
@@ -56,8 +57,6 @@ const JournalEntryPage = () => {
     useEffect(() => {
         fetchCollections();
     }, []);
-
-    const isLoading = actionLoading;
 
     useEffect(() => {
         if(!actionLoading && actionResult){
@@ -75,9 +74,24 @@ const JournalEntryPage = () => {
             moodScore: mood.score,
             moodQuery: mood.pixabayQuery
         }
-        console.log('newData', newData);
+
         actionFn(newData)
     });
+
+    //for creating collection
+    useEffect(() => {
+        if(createdCollection){
+            setIsCollectionDialogOpen(false);
+            fetchCollections();
+            setValue("collectionId", createCollection.id);
+            toast.success(`Collection ${createdCollection.name} Created!`);
+        }
+    }, [createdCollection]);
+    const handleCreateCollection = async (data) => {
+        createCollectionFn(data);
+    }
+
+    const isLoading = actionLoading || collectionsLoading;
 
     return (
         <div className="py-8">
@@ -209,12 +223,20 @@ const JournalEntryPage = () => {
                     <Button
                         type="submit"
                         variant="journal"
+                        disabled={actionLoading}
                     >
                         Publish
                     </Button>
                 </div>
 
             </form>
+
+            <CollectionForm
+                loading={createCollectionLoading}
+                onSuccess={handleCreateCollection}
+                open={isCollectionDialogOpen}
+                setOpen={setIsCollectionDialogOpen}
+            />
         </div>
     )
 }
