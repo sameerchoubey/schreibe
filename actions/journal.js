@@ -155,7 +155,7 @@ export async function getJournalEntry(id) {
         if (!entry) throw new Error("Entry not found");
     
         return entry;
-    } catch (error) {
+    } catch(error) {
         throw new Error(error.message);
     }
 }
@@ -207,8 +207,8 @@ export async function updateJournalEntry(data) {
         // Check if entry exists and belongs to user
         const existingEntry = await db.entry.findFirst({
             where: {
-            id: data.id,
-            userId: user.id,
+                id: data.id,
+                userId: user.id,
             },
         });
     
@@ -228,12 +228,12 @@ export async function updateJournalEntry(data) {
         const updatedEntry = await db.entry.update({
             where: { id: data.id },
             data: {
-            title: data.title,
-            content: data.content,
-            mood: mood.id,
-            moodScore: mood.score,
-            moodImageUrl,
-            collectionId: data.collectionId || null,
+                title: data.title,
+                content: data.content,
+                mood: mood.id,
+                moodScore: mood.score,
+                moodImageUrl,
+                collectionId: data.collectionId || null,
             },
         });
     
@@ -284,15 +284,15 @@ export async function saveDraft(data) {
         const draft = await db.draft.upsert({
             where: { userId: user.id },
             create: {
-            title: data.title,
-            content: data.content,
-            mood: data.mood,
-            userId: user.id,
+                title: data.title,
+                content: data.content,
+                mood: data.mood,
+                userId: user.id,
             },
             update: {
-            title: data.title,
-            content: data.content,
-            mood: data.mood,
+                title: data.title,
+                content: data.content,
+                mood: data.mood,
             },
         });
     
@@ -301,4 +301,4 @@ export async function saveDraft(data) {
     } catch (error) {
         return { success: false, error: error.message };
     }
-  }
+}
