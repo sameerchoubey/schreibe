@@ -75,3 +75,35 @@ export async function getCollections() {
   
     return collections;
 }
+
+export async function deleteCollection(id) {
+	try {
+		const { userId } = await auth();
+		if (!userId) throw new Error("Unauthorized");
+
+		const user = await db.user.findUnique({
+			where: { clerkUserId: userId },
+		});
+
+		if (!user) throw new Error("User not found");
+
+		// Check if collection exists and belongs to user
+		const collection = await db.collection.findFirst({
+			where: {
+				id,
+				userId: user.id,
+			},
+		});
+
+		if (!collection) throw new Error("Collection not found");
+
+		// Delete the collection (entries will be cascade deleted)
+		await db.collection.delete({
+			where: { id },
+		});
+
+		return true;
+	} catch (error) {
+		throw new Error(error.message);
+	}
+}
