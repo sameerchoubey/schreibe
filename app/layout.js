@@ -3,9 +3,9 @@ import "./globals.css";
 import Header from "@/components/header";
 import { ClerkProvider} from '@clerk/nextjs'
 import { Toaster } from "sonner";
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({subsets: ["latin"]});
-
 
 export const metadata = {
 	title: "Schreibe",
@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
 							<p>Made with ❤️ in Berlin</p>
 						</div>
 					</footer>
+					<Analytics />
 				</body>
 			</html>
 		</ClerkProvider>
