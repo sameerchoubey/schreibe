@@ -10,22 +10,19 @@ import { getDailyPrompt } from "@/actions/public";
 
 const features = [
 	{
-	  icon: Book,
-	  title: "Rich Text Editor",
-	  description:
-		"Express yourself with a powerful editor supporting markdown, formatting, and more.",
+		icon: Book,
+		title: "Rich Text Editor",
+		description: "Express yourself with a powerful editor supporting markdown, formatting, and more.",
 	},
 	{
-	  icon: Sparkles,
-	  title: "Daily Inspiration",
-	  description:
-		"Get inspired with daily prompts and mood-based imagery to spark your creativity.",
+		icon: Sparkles,
+		title: "Daily Inspiration",
+		description: "Get inspired with daily prompts and mood-based imagery to spark your creativity.",
 	},
 	{
-	  icon: Lock,
-	  title: "Secure & Private",
-	  description:
-		"Your thoughts are safe with enterprise-grade security and privacy features.",
+		icon: Lock,
+		title: "Secure & Private",
+		description: "Your thoughts are safe with enterprise-grade security and privacy features.",
 	},
 ];
 
