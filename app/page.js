@@ -60,7 +60,7 @@ export default async function Home() {
 
 						<div className="space-y-4 p-4">
 							<h3 className="text-xl font-semibold text-orange-900">
-								{advice ? advice : "My Thoughts Today"}
+								{typeof advice === 'string' ? advice : advice?.data || "My Thoughts Today"}
 							</h3>
 
 							<Skeleton className="h-4 bg-orange-100 rounded w-3/4" />

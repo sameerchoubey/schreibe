@@ -18,12 +18,10 @@ export const getDailyPrompt = unstable_cache(
         try {
             const res = await fetch("https://api.adviceslip.com/advice", {cache: "no-store"});
             const data = await res.json();
-            return data?.slip?.advice;
+            return data?.slip?.advice || "What's on your mind today?";
         } catch(err){
-            return {
-                success: false,
-                data: "What's on your mind today?"
-            };
+            console.error("Fetch failed, getDailyPrompt:", err);
+            return "What's on your mind today?"; // Always return string
         }
     },
     ["daily-prompt"],
